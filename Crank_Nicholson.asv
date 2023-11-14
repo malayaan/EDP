@@ -1,10 +1,10 @@
-%on définit les valeurs initiales
+% On définit les valeurs initiales
 % Définition des paramètres
 a = 0;
 b = 2;
 beta = 1;
 M = 99;
-k = 0.01;
+k = 0.001;
 T = 1;
 N = T/k;
 
@@ -34,9 +34,10 @@ drawnow;
 for n = 1:N-1
     % Mise à jour de la solution numérique U
     for m = 2:M-1 % Commencer à m = 2 et finir à M-1 pour ne pas dépasser les limites de la matrice
-        U(m, n+1) = (1 - k*beta/h) * U(m, n) + (k * beta / h) * U(m-1, n);
+        Ucm = (1 - k*beta/h) * U(m, n) + (k * beta / h) * U(m-1, n);
+        Ucm1 = 
+        U(m, n+1) = U(m, n) - (k*beta/(2*h)) * (U(m+1, n) - U(m-1, n) + Ucnew - U(m-1, n+1));
     end
-    ù
     % Mise à jour du graphique pour la solution numérique
     set(hPlot, 'YData', U(:, n+1));
     
@@ -48,8 +49,8 @@ for n = 1:N-1
     set(hExactPlot, 'XData', x, 'YData', UExact);
     
     drawnow; % Met à jour la figure avec les nouveaux tracés
-    pause(0.1); % Pause pour une meilleure visualisation
+    pause(0.02); % Pause pour une meilleure visualisation
 end
 
 legend([hPlot, hExactPlot], 'Numerical', 'Exact'); % Ajouter une légende après la création des tracés
-hold off; % Relâche la figure pour de futurs tracésoikioo
+hold off; % Relâche la figure pour de futurs tracés
