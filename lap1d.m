@@ -1,6 +1,6 @@
 % Cas à traiter
 cas = {'a', 'b', 'c'};
-M = 200;
+M = 20;
 
 for i = 1:length(cas)
     switch cas{i}
