@@ -3,7 +3,7 @@ a = 0;
 b = 2;
 beta = 1;
 M = 200;
-k = 0.005;
+k = 0.01;
 T = 1;
 N = T/k;
 
@@ -18,7 +18,7 @@ U0 = exp(-5 * (5 * x - 1) .^ 2);
 U = zeros(M, N);
 U(:,1) = U0; % La première colonne est U0
 
-p = -beta^2 * k^ 2 / h^2 +1;
+p = 1-beta^2 * k^ 2 / h^2;
 q = beta^2 * k^2 / (2*h^2) - beta * k / (2 * h);
 r = beta^2 * k^2 / (2*h^2) + beta * k / (2 * h);
 

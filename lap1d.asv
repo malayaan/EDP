@@ -2,8 +2,8 @@
 a = 0;
 b = 2;
 beta = 1;
-M = 99;
-k = 0.05;
+M = 200;
+k = 0.01;
 T = 1;
 N = T/k;
 
@@ -13,37 +13,35 @@ h = (b - a) / (M + 1);
 % Initialisation de x et U(0)
 x = linspace(a + h, b - h, M)';
 U0 = exp(-5 * (5 * x - 1) .^ 2);
-U1 = zeros(M, 1);
-for m = 2:M-1
-    U1(m) = (1 - k*beta/h) * U0(m) + (k * beta / h) * U0(m-1);
-end
 
 % Préallocation de U pour stocker l'historique des solutions
 U = zeros(M, N);
 U(:,1) = U0; % La première colonne est U0
-U(:,2) = U1; % La deuxieme colonne est U1
 
-
-p = -k*beta/h;
-q = - p;
+p = 2/h^2;
+q = -1/h^2;
+r = -q;
 
 % Création d'une matrice carrée MxM remplie de zéros
 A = zeros(M, M);
 
-% Remplissage de la diagonale supérieure avec p
-for i = 1:M-1
-    A(i, i+1) = p;
+% Remplissage de la diagonale principale avec p
+for i = 1:M
+    A(i, i) = p;
 end
 
-% Remplissage de la diagonale inférieure avec q
+% Remplissage de la diagonale supérieure avec q
+for i = 1:M-1
+    A(i, i+1) = q;
+end
+
+% Remplissage de la diagonale inférieure avec r
 for i = 2:M
-    A(i, i-1) = q;
+    A(i, i-1) = r;
 end
 
 %initialisation de la condition au limite
 Uborder = zeros(N, 1);
-Uborder(1,1) = exp(-5 * (5 * (b) - 1) .^ 2);
-Uborder(2,1) = -beta*k/h*(Uborder(1, 1) - U(M, 1)) + k*Uborder(1, 1);
 
 % Initialisation de la figure pour l'affichage dynamique
 figure;
@@ -54,16 +52,13 @@ hold on; % Maintenir la figure pour les tracés additionnels
 hExactPlot = plot(x, U0, 'r--', 'LineWidth', 2); % en rouge pointillé pour la solution exacte
 ylim([-0.2 1]);
 
-for n = 3:N
-    Uborder(n, 1) = -beta*k/h*(Uborder(n-1, 1) - U(M, n-1)) + k*Uborder(n-1, 1);
+for n = 2:N
 
     % La colonne précédente représente UOLD
     UOLD = U(:, n-1);
-    UOLDOLD = U(:, n-2);
-    % Calcul de UNEW en utilisant la matrice A et UOLD
-    UNEW = A * UOLD+UOLDOLD;
-    UNEW(M) = UNEW(M) + p*Uborder(n-1, 1);
 
+    % Calcul de UNEW en utilisant la matrice A et UOLD
+    UNEW = A * UOLD;
     % Mise à jour de la matrice U avec les nouvelles valeurs
     U(:, n) = UNEW;
 
