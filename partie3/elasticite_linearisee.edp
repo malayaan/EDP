@@ -1,0 +1,33 @@
+// Définition du nombre de subdivisions
+int N = 40; // Ajustez selon la précision désirée
+
+// Création des bords et du maillage
+border a(t=0, 1){x=t; y=0; label=1;} // Bas
+border b(t=0, 1){x=1; y=t; label=2;} // Droite
+border c(t=1, 0){x=t; y=1; label=3;} // Haut
+border d(t=1, 0){x=0; y=t; label=4;} // Gauche
+mesh Th = buildmesh(a(N) + b(N) + c(N) + d(N)); // Création du maillage avec N subdivisions
+
+// Définition de l'espace fonctionnel
+fespace Wh(Th, [P1, P1]); 
+Wh [uh1, uh2], [vh1, vh2]; // Composantes du déplacement et fonctions tests
+
+// Définition des coefficients de Lamé pour un matériau spécifique (par exemple, l'acier)
+real mu = 80000, lambda = 120000;
+
+// Définition des forces appliquées
+func f1 = 0;
+func f2 = -10;
+
+// Formulation variationnelle et conditions aux limites
+problem elasticProblem([uh1, uh2], [vh1, vh2], solver = LU) = 
+    int2d(Th)(2*mu*(dx(uh1)*dx(vh1) + dy(uh2)*dy(vh2) + ((dx(uh2) + dy(uh1))*(dx(vh2) + dy(vh1))/2))+lambda*(dx(uh1) + dy(uh2))*(dx(vh1) + dy(vh2))) 
+  	- int2d(Th)(f1*vh1 + f2*vh2) 
+  	+ on(4, uh1=0, uh2=0)
+  ; // Appliquer les conditions aux limites sur le bord Γ4
+
+// Résolution du problème
+elasticProblem;
+
+// Visualisation des résultats
+plot([uh1, uh2], fill=true, value=true);

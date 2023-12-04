@@ -1,0 +1,46 @@
+// Exact solution u and its derivatives
+func u = sin(pi*x)*sin(pi*y);
+func ux = pi*cos(pi*x)*sin(pi*y);
+func uy = pi*sin(pi*x)*cos(pi*y);
+
+// Corresponding right-hand side function f (from the equation -∆u = f)
+func f = 2*pi^2*sin(pi*x)*sin(pi*y);
+
+// Number of iterations for convergence test
+int Nbiter = 5;
+real h = 1.0;
+real errorL2, errorH1;
+
+for (int i = 0; i < Nbiter; i++) {
+    h /= 2; // Halve the mesh size at each iteration
+    int Nbnoeuds = int(1/h);
+    mesh Th = square(Nbnoeuds, Nbnoeuds, [x, y]);
+    fespace Vh(Th, P1);
+    Vh uh, vh;
+
+    // Define the variational problem
+    problem laplacian(uh, vh, solver = LU) =
+        int2d(Th)(
+            dx(uh) * dx(vh) + dy(uh) * dy(vh)  // bilinear form for Laplacian
+        )
+        - int2d(Th)(
+            f * vh  // linear form for f
+        )
+        + on(1, 2, 3, 4, uh = 0);  // Dirichlet boundary conditions
+
+    // Solve the variational problem
+    laplacian;
+
+    // Calculate L2 norm of the error
+    errorL2 = sqrt(int2d(Th)(pow(u - uh, 2)));
+
+    // Calculate H1 seminorm of the error (without the L2 part)
+    errorH1 = sqrt(int2d(Th)(pow(ux - dx(uh), 2) + pow(uy - dy(uh), 2)));
+
+    // Output the errors
+    cout << "h = " << h << " - L2 error = " << errorL2 << " - H1 error = " << errorH1 << endl;
+    // If you want to display the errors graphically with the plot
+    string legend = "h = " + h + " - L2 error = " + errorL2 + " - H1 error = " + errorH1;
+    plot(uh, cmm = legend, wait = 1);
+}
+

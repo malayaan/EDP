@@ -1,0 +1,29 @@
+  SkyLineMatrix: size pL/pU: 9 24 24 moy=2.66667
+  -- Solve :
+          min 8.18044e-61  max 0.818044
+h = 0.5 - L2 error = 0.249869 - H1 error = 1.50199
+  -- Square mesh : nb vertices  =25 ,  nb triangles = 32 ,  nb boundary edges 16
+  SkyLineMatrix: size pL/pU: 25 120 120 moy=4.8
+  -- Solve :
+          min 4.67777e-61  max 0.950153
+h = 0.25 - L2 error = 0.0790906 - H1 error = 0.838544
+  -- Square mesh : nb vertices  =81 ,  nb triangles = 128 ,  nb boundary edges 32
+  SkyLineMatrix: size pL/pU: 81 720 720 moy=8.88889
+  -- Solve :
+          min 1.42818e-61  max 0.987248
+h = 0.125 - L2 error = 0.0211337 - H1 error = 0.431798
+  -- Square mesh : nb vertices  =289 ,  nb triangles = 512 ,  nb boundary edges 64
+  SkyLineMatrix: size pL/pU: 289 4896 4896 moy=16.9412
+  -- Solve :
+          min 3.77254e-62  max 0.996793
+h = 0.0625 - L2 error = 0.00537749 - H1 error = 0.217536
+  -- Square mesh : nb vertices  =1089 ,  nb triangles = 2048 ,  nb boundary edges 128
+  SkyLineMatrix: size pL/pU: 1089 35904 35904 moy=32.9697
+  -- Solve :
+          min 9.5796e-63  max 0.999197
+h = 0.03125 - L2 error = 0.00135044 - H1 error = 0.108975
+times: compile 0.064s, execution 2.441s,  mpirank:0
+ ######## We forget of deleting   -35 Nb pointer,   0Bytes  ,  mpirank 0, memory leak =0
+ CodeAlloc : nb ptr  3618,  size :475608 mpirank: 0
+Ok: Normal End
+ try getConsole C:\Users\decroux paul\Documents\info\EDP\partie3\lap_convergence.edp

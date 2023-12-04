@@ -1,0 +1,28 @@
+   15 : // Définition des coefficients de Lamé pour un matériau spécifique (par exemple, l'acier)
+   16 : real mu = 80000, lambda = 120000;
+   17 :
+   18 : // Définition des forces appliquées
+   19 : func f1 = 0;
+   20 : func f2 = -10;
+   21 :
+   22 : // Formulation variationnelle et conditions aux limites
+   23 : problem elasticProblem([uh1, uh2], [vh1, vh2], solver = LU) =
+   24 :     int2d(Th)(2*mu*(dx(uh1)*dx(vh1) + dy(uh2)*dy(vh2) + ((dx(uh2) + dy(uh1))*(dx(vh2) + dy(vh1))/2))+lambda*(dx(uh1) + dy(uh2))*(dx(vh1) + dy(vh2)))
+   25 :         - int2d(Th)(f1*vh1 + f2*vh2)
+   26 :         + on(4, uh1=0, uh2=0)
+   27 :   ; // Appliquer les conditions aux limites sur le bord Γ4
+   28 :
+   29 : // Résolution du problème
+   30 : elasticProblem;
+   31 :
+   32 : // Visualisation des résultats
+   33 : plot([uh1, uh2], fill=true, value=true); sizestack + 1024 =2784  ( 1760 )
+ 
+  --  mesh:  Nb of Triangles =   3746, Nb of Vertices 1954
+  SkyLineMatrix: size pL/pU: 3908 345142 345142 moy=88.3168
+  -- Solve :
+          min -0.000136573  max 4.49269e-05
+times: compile 0.053s, execution 0.081s,  mpirank:0
+ CodeAlloc : nb ptr  3638,  size :480008 mpirank: 0
+Ok: Normal End
+ try getConsole C:\Users\decroux paul\Documents\info\EDP\partie3\elasticite_linearisee.edp

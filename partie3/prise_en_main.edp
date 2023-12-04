@@ -1,0 +1,30 @@
+// Number of nodes along x and y axes
+int Nbnoeuds = 10;
+
+// Define the structured mesh on a unit square with Nbnoeuds nodes on each side
+mesh Th = square(Nbnoeuds, Nbnoeuds, [x, y]);
+
+// Define the source function f
+func f = x * y;
+
+// Define the finite element space on mesh Th using P1 elements
+fespace Vh(Th, P1);
+
+// Define trial and test functions uh and vh in the finite element space Vh
+Vh uh, vh;
+
+// Define the variational problem
+problem chaleur(uh, vh, solver = LU) =
+    int2d(Th)(
+        dx(uh) * dx(vh) + dy(uh) * dy(vh)  // bilinear form representing the Laplacian operator
+    )
+    - int2d(Th)(
+        f * vh  // linear form representing the source term f
+    )
+    + on(1, 2, 3, 4, uh = 0);  // enforce zero Dirichlet boundary conditions on all sides
+
+// Solve the variational problem
+chaleur;
+
+// Plot the solution uh
+plot(uh, wait = 1);

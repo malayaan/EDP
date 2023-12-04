@@ -1,0 +1,29 @@
+   12 :
+   13 : // Define trial and test functions uh and vh in the finite element space Vh
+   14 : Vh uh, vh;
+   15 :
+   16 : // Define the variational problem
+   17 : problem chaleur(uh, vh, solver = LU) =
+   18 :     int2d(Th)(
+   19 :         dx(uh) * dx(vh) + dy(uh) * dy(vh)  // bilinear form representing the Laplacian operator
+   20 :     )
+   21 :     - int2d(Th)(
+   22 :         f * vh  // linear form representing the source term f
+   23 :     )
+   24 :     + on(1, 2, 3, 4, uh = 0);  // enforce zero Dirichlet boundary conditions on all sides
+   25 :
+   26 : // Solve the variational problem
+   27 : chaleur;
+   28 :
+   29 : // Plot the solution uh
+   30 : plot(uh, wait = 1);
+   31 :  sizestack + 1024 =1904  ( 880 )
+ 
+  -- Square mesh : nb vertices  =121 ,  nb triangles = 200 ,  nb boundary edges 40
+  SkyLineMatrix: size pL/pU: 121 1320 1320 moy=10.9091
+  -- Solve :
+          min 1.11334e-63  max 0.0208409
+times: compile 0.049s, execution 0.002s,  mpirank:0
+ CodeAlloc : nb ptr  3486,  size :471920 mpirank: 0
+Ok: Normal End
+ try getConsole C:\Users\decroux paul\Documents\info\EDP\partie3\prise_en_main.edp
