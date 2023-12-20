@@ -16,13 +16,13 @@
    30 : elasticProblem;
    31 :
    32 : // Visualisation des résultats
-   33 : plot([uh1, uh2], fill=true, value=true); sizestack + 1024 =2784  ( 1760 )
+   33 : plot([uh1, uh2], fill=true, value=true); sizestack + 1024 =2624  ( 1600 )
  
   --  mesh:  Nb of Triangles =   3746, Nb of Vertices 1954
   SkyLineMatrix: size pL/pU: 3908 345142 345142 moy=88.3168
   -- Solve :
           min -0.000136573  max 4.49269e-05
-times: compile 0.053s, execution 0.081s,  mpirank:0
- CodeAlloc : nb ptr  3638,  size :480008 mpirank: 0
+times: compile 0.123s, execution 0.118s,  mpirank:0
+ CodeAlloc : nb ptr  3635,  size :479888 mpirank: 0
 Ok: Normal End
  try getConsole C:\Users\decroux paul\Documents\info\EDP\partie3\elasticite_linearisee.edp
